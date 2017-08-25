@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 before((done) => {
-  mongoose.connect('mongodb://localhost/rideshare_test');
+  mongoose.connect('mongodb://localhost/rideshare_test', { useMongoClient: true });
 
   mongoose.connection
   .once('open', () => done())
