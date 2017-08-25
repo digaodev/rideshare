@@ -1,0 +1,28 @@
+{
+  "name": "rideshare",
+  "version": "1.0.0",
+  "description": "A basic NodeJS app for a fake ridesharing service",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digaodev/rideshare.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/digaodev/rideshare/issues"
+  },
+  "homepage": "https://github.com/digaodev/rideshare#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.8"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.0",
+    "supertest": "^3.0.0"
+  }
+}
