@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Driver = mongoose.model('Driver');
 
 describe('The Drivers Controller', () => {
-  it('handles a POST request to /api/drivers to create a new driver', (done) => {
+  it('should handle a POST request to /api/drivers to create a new driver', (done) => {
 
     let emailDriver = 'testdriver@testdriver.com';
 
@@ -16,7 +16,7 @@ describe('The Drivers Controller', () => {
       })
       .expect('Content-Type', /json/)
       .expect(201)
-      .end((err, res) => {
+      .end((err) => {
         if (err) return done(err);
 
         Driver.findOne({
@@ -30,7 +30,7 @@ describe('The Drivers Controller', () => {
       });
   });
 
-  it('handles a PUT request to /api/drivers/:id to update an existing driver', (done) => {
+  it('should handle a PUT request to /api/drivers/:id to update an existing driver', (done) => {
 
     var driver = new Driver({
       email: 'testupdatedriver@testdriver.com',
@@ -45,14 +45,13 @@ describe('The Drivers Controller', () => {
         })
         .expect('Content-Type', /json/)
         .expect(200)
-        .end((err, res) => {
+        .end((err) => {
           if (err) return done(err);
 
           Driver.findOne({
               email: 'testupdatedriver@testdriver.com'
             })
-            .then((driver) => {
-              // assert(driver.driving === true);
+            .then((driver) => { 
               expect(driver.driving).to.be.true;
               done();
             });
@@ -60,7 +59,7 @@ describe('The Drivers Controller', () => {
     });
   });
 
-  it('handles a DELETE request to /api/drivers/:id to delete an existing driver', (done) => {
+  it('should handle a DELETE request to /api/drivers/:id to delete an existing driver', (done) => {
 
     var driver = new Driver({
       email: 'testdeletedriver@testdriver.com'
@@ -71,14 +70,13 @@ describe('The Drivers Controller', () => {
         .delete(`/api/drivers/${driver._id}`)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end((err,res) => {
+        .end((err) => {
           if (err) return done(err);
 
           Driver.findOne({
               email: 'testdeletedriver@testdriver.com'
             })
             .then((driver) => {
-              // assert(driver === null);
               expect(driver).to.be.null;
               done();
             });
