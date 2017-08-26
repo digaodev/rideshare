@@ -1,4 +1,4 @@
-const assert = require('assert');
+const expect = require('chai').expect;
 const request = require('supertest');
 const app = require('../../app');
 const mongoose = require('mongoose');
@@ -14,14 +14,16 @@ describe('The Drivers Controller', () => {
       .send({
         email: emailDriver
       })
+      .expect('Content-Type', /json/)
+      .expect(201)
       .end((err, res) => {
-        if (err) console.log(err);
+        if (err) return done(err);
 
         Driver.findOne({
             email: emailDriver
           })
           .then((driver) => {
-            assert(driver.email === 'testdriver@testdriver.com');
+            expect(driver.email).to.equal('testdriver@testdriver.com');
             done();
           });
 
@@ -37,47 +39,53 @@ describe('The Drivers Controller', () => {
 
     driver.save().then(() => {
       request(app)
-      .put(`/api/drivers/${driver._id}`)
-      .send({
-        driving: true
-      })
-      .end((err, res) => {
-        if (err) console.log(err);
+        .put(`/api/drivers/${driver._id}`)
+        .send({
+          driving: true
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) return done(err);
 
-        Driver.findOne({
-            email: 'testupdatedriver@testdriver.com'
-          })
-          .then((driver) => {
-            assert(driver.driving === true);
-            done();
-          });
-      });
-    } );
+          Driver.findOne({
+              email: 'testupdatedriver@testdriver.com'
+            })
+            .then((driver) => {
+              // assert(driver.driving === true);
+              expect(driver.driving).to.be.true;
+              done();
+            });
+        });
+    });
   });
 
   it('handles a DELETE request to /api/drivers/:id to delete an existing driver', (done) => {
-    
-        var driver = new Driver({
-          email: 'testdeletedriver@testdriver.com'
+
+    var driver = new Driver({
+      email: 'testdeletedriver@testdriver.com'
+    });
+
+    driver.save().then(() => {
+      request(app)
+        .delete(`/api/drivers/${driver._id}`)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err,res) => {
+          if (err) return done(err);
+
+          Driver.findOne({
+              email: 'testdeletedriver@testdriver.com'
+            })
+            .then((driver) => {
+              // assert(driver === null);
+              expect(driver).to.be.null;
+              done();
+            });
         });
-    
-        driver.save().then(() => {
-          request(app)
-          .delete(`/api/drivers/${driver._id}`)
-          .end((err) => {
-            if (err) console.log(err);
-    
-            Driver.findOne({
-                email: 'testdeletedriver@testdriver.com'
-              })
-              .then((driver) => {
-                assert(driver === null);
-                done();
-              });
-          });
-        } );
-      });
-  
+    });
+  });
+
 
 
 });

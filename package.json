@@ -4,7 +4,8 @@
   "description": "A basic NodeJS app for a fake ridesharing service",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive'"
+    "test": "NODE_ENV=test mocha --recursive",
+    "test-watch": "NODE_ENV=test nodemon --exec \"npm test\""
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "mongoose": "^4.11.8"
   },
   "devDependencies": {
+    "chai": "^4.1.1",
     "mocha": "^3.5.0",
     "supertest": "^3.0.0"
   }

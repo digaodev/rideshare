@@ -11,15 +11,15 @@ module.exports = {
   index(req, res, next) {
     Driver.create(req.body)
       .then((driver) => {
-        res.send(driver);
+        res.status(200).send(driver);
       })
       .catch(next);
   },
 
   create(req, res, next) {
     Driver.create(req.body)
-      .then((driver) => {
-        res.send(driver);
+      .then((driver) => {        
+        res.status(201).send(driver);
       })
       .catch(next);
   },
@@ -33,7 +33,7 @@ module.exports = {
       .then(() => Driver.findById({
         _id: driverId
       }))
-      .then((driver) => res.send(driver))
+      .then((driver) => res.status(200).send(driver))
       .catch(next);
   },
 
@@ -43,7 +43,7 @@ module.exports = {
     Driver.findByIdAndRemove({
         _id: driverId
       })
-      .then((driver) => res.status(204).send(driver))
+      .then((driver) => res.status(200).send(driver))
       .catch(next);
   }
 };
