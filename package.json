@@ -4,7 +4,7 @@
   "description": "A basic NodeJS app for a fake ridesharing service",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'"
+    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive'"
   },
   "repository": {
     "type": "git",

@@ -7,6 +7,15 @@ module.exports = {
     });
   },
 
+
+  index(req, res, next) {
+    Driver.create(req.body)
+      .then((driver) => {
+        res.send(driver);
+      })
+      .catch(next);
+  },
+
   create(req, res, next) {
     Driver.create(req.body)
       .then((driver) => {
