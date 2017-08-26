@@ -1,2 +1,2 @@
 # rideshare
-A basic NodeJS app for a fake ridesharing service
+A basic NodeJS cli app for a ridesharing service using mongoDB and GeoJSON
