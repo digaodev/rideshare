@@ -5,6 +5,49 @@ const mongoose = require('mongoose');
 const Driver = mongoose.model('Driver');
 
 describe('The Drivers Controller', () => {
+
+  it('should handle a GET request to /api/drivers to find all drivers near a location', (done) => {
+
+    const clientLocation = {
+      lng: -46.657816,
+      lat: -23.560250
+    };
+
+    let paulistaDriver = new Driver({
+      email: 'paulistadriver@testdriver.com',
+      geometry: {
+        type: 'Point',
+        coordinates: [-46.6542503, -23.5632103]
+      }
+    });
+
+    let augustaDriver = new Driver({
+      email: 'augustadriver@testdriver.com',
+      geometry: {
+        type: 'Point',
+        coordinates: [-46.666586, -23.564161]
+      }
+    });
+
+    Promise.all([paulistaDriver.save(), augustaDriver.save()]);
+
+    request(app)
+      .get('/api/drivers')
+      .query({
+        lng: clientLocation.lng
+      })
+      .query({
+        lat: clientLocation.lat
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect((res) => expect(res.body.length).to.equal(2))
+      .end((err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
   it('should handle a POST request to /api/drivers to create a new driver', (done) => {
 
     let emailDriver = 'testdriver@testdriver.com';
@@ -51,7 +94,7 @@ describe('The Drivers Controller', () => {
           Driver.findOne({
               email: 'testupdatedriver@testdriver.com'
             })
-            .then((driver) => { 
+            .then((driver) => {
               expect(driver.driving).to.be.true;
               done();
             });
@@ -83,7 +126,6 @@ describe('The Drivers Controller', () => {
         });
     });
   });
-
 
 
 });

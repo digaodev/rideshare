@@ -9,16 +9,25 @@ module.exports = {
 
 
   index(req, res, next) {
-    Driver.create(req.body)
-      .then((driver) => {
-        res.status(200).send(driver);
+    let lng = parseFloat(req.query.lng);
+    let lat = parseFloat(req.query.lat);
+
+    Driver.geoNear({
+        type: 'Point',
+        coordinates: [lng, lat]
+      }, {
+        spherical: true,
+        maxDistance: 2000
+      })
+      .then((drivers) => {
+        res.status(200).send(drivers);
       })
       .catch(next);
   },
 
   create(req, res, next) {
     Driver.create(req.body)
-      .then((driver) => {        
+      .then((driver) => {
         res.status(201).send(driver);
       })
       .catch(next);
